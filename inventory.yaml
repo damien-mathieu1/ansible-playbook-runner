@@ -1,0 +1,9 @@
+myhosts:
+  hosts:
+    local:
+      ansible_host: localhost
+      ansible_connection: local
+    # See the commented out example below for how to add a remote host
+    # computer1:
+    #   ansible_host: 192.0.0.1
+    #   ansible_user: user1

@@ -1,0 +1,57 @@
+- name: "Install apache2 ubuntu"
+  hosts: all
+  become: yes
+  tasks:
+    - name: Update APT package manager repositories
+      apt:
+        update_cache: yes
+      register: update_result
+      tags: ubuntu
+
+    - debug:
+        msg: "Update APT package manager repositories completed with result: {{ update_result }}"
+
+    - name: Upgrade all packages to the latest version
+      apt:
+        upgrade: "yes"
+      register: upgrade_result
+      tags: ubuntu
+
+    - debug:
+        msg: "Upgrade all packages completed with result: {{ upgrade_result }}"
+
+    - name: Install Apache2
+      apt:
+        name: apache2
+        state: present
+      register: install_result
+      tags: ubuntu
+
+    - debug:
+        msg: "Install Apache2 completed with result: {{ install_result }}"
+
+- name: "Install apache2 archlinux"
+  hosts: local
+  become: yes
+  tasks:
+    - name: Update pacman repositories
+      command:
+        cmd: pacman -Syu --noconfirm
+      register: update_result
+      tags: archlinux
+
+    - name: Show update result
+      debug:
+        var: update_result.stdout_lines
+      tags: archlinux
+
+    - name: Install Apache
+      command:
+        cmd: pacman -S apache --noconfirm
+      register: install_result
+      tags: archlinux
+
+    - name: Show install result
+      debug:
+        var: install_result.stdout_lines
+      tags: archlinux
